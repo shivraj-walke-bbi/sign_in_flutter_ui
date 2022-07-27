@@ -1,5 +1,33 @@
 import 'package:flutter/material.dart';
 
+extension EmailValidator on String {
+  bool isValidEmail() {
+    return RegExp(
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        .hasMatch(this);
+  }
+}
+extension Passwordvalidator on String{
+  bool isValidPassword(){
+    return RegExp(
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$'
+    ).hasMatch(this);
+  }
+}
+// String? validatePassword(String value) {
+//   RegExp regex =
+//   RegExp();
+//   if (value.isEmpty) {
+//     return 'Please enter password';
+//   } else {
+//     if (!regex.hasMatch(value)) {
+//       return 'Enter valid password';
+//     } else {
+//       return null;
+//     }
+//   }
+// }
+
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
 
@@ -10,6 +38,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
 
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -56,12 +85,7 @@ class _SignInState extends State<SignIn> {
                             ),
                             hintText: 'Enter email',
                           ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter email';
-                            }
-                            return null;
-                          },
+                          validator: (input) => input!.isValidEmail() ? null : "Check your email",
                         ),
                       ),
                       const SizedBox(height: 10.0,),
@@ -80,12 +104,7 @@ class _SignInState extends State<SignIn> {
                             hintText: 'Enter password',
                           ),
                           obscureText: true,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter password';
-                            }
-                            return null;
-                          },
+                          validator: (input) => input!.isValidPassword() ? null : "Check your password",
                         ),
                       ),
                       Padding(
